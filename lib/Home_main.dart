@@ -1,4 +1,3 @@
-import 'package:cycle_bike_mfu/booking_confirm_page.dart';
 import 'package:cycle_bike_mfu/booking_page.dart';
 import 'package:cycle_bike_mfu/functions.dart';
 import 'package:cycle_bike_mfu/history_page.dart';
@@ -20,7 +19,7 @@ class _Home_mainState extends State<Home_main> {
     const HomePage(),
     const HistoryPage(),
     const qrcode_page(),
-    BookingPage(bookBicycle: const [])
+    BookingPage(),
   ];
   static const List<String> _appBarTitles = <String>[
     'Home',

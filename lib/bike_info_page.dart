@@ -1,18 +1,49 @@
-import 'package:cycle_bike_mfu/Home_main.dart';
-import 'package:cycle_bike_mfu/booking_confirm_page.dart';
 import 'package:flutter/material.dart';
-import 'package:cycle_bike_mfu/functions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
+import 'dart:math';
 
 class BikeInfoPage extends StatefulWidget {
-  final Bicycle bicycle;
-
-  BikeInfoPage({required this.bicycle});
+  final DocumentSnapshot bicycle;
+  const BikeInfoPage({super.key, required this.bicycle});
   @override
   State<BikeInfoPage> createState() => _BikeInfoPageState();
 }
 
 class _BikeInfoPageState extends State<BikeInfoPage> {
-  bool isBooked = false;
+  String generateBookingId() {
+    int length = 8;
+    final random = Random();
+    const chars =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890';
+
+    String result = '';
+    for (var i = 0; i < length; i++) {
+      final randomIndex = random.nextInt(chars.length);
+      result += chars[randomIndex];
+    }
+
+    return result;
+  }
+
+  void _bookBike() {
+    // Generate a randomized booking ID
+    final String bookingId = generateBookingId();
+    //final bool confirmed = false;
+
+    // Add the selected bike's information along with the booking ID to the bookingBicycles collection in Firestore
+    FirebaseFirestore.instance.collection('bookedBicycles').doc(bookingId).set({
+      //'confirmed'
+      'bookingId': bookingId,
+      'cycleName': widget.bicycle['cycleName'],
+      'imageAssetPath': widget.bicycle['imageAssetPath'],
+      // Add other relevant fields
+    });
+
+    // Navigate back to the home page
+    Navigator.pushNamed(context, '/home');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +79,7 @@ class _BikeInfoPageState extends State<BikeInfoPage> {
               right: 10,
               top: 100,
               child: Image.asset(
-                widget.bicycle.getImageAssetPath,
+                widget.bicycle['imageAssetPath'],
                 width: 200,
                 height: 200,
               ),
@@ -75,7 +106,7 @@ class _BikeInfoPageState extends State<BikeInfoPage> {
                             Padding(
                               padding: EdgeInsets.only(top: 8),
                               child: Text(
-                                widget.bicycle.getTypeOfBike,
+                                widget.bicycle['cycleName'], //cycleName
                                 style: const TextStyle(
                                   fontSize: 12,
                                 ),
@@ -84,12 +115,7 @@ class _BikeInfoPageState extends State<BikeInfoPage> {
                           ],
                         ),
                         const Spacer(),
-                        const Text(
-                          'Available',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 64, 221, 69),
-                              fontSize: 18),
-                        ),
+                        //'Available'
                       ],
                     ),
                     const SizedBox(
@@ -101,59 +127,6 @@ class _BikeInfoPageState extends State<BikeInfoPage> {
                     const SizedBox(
                       height: 24,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              "Range",
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              "50mil",
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              "Speed",
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              "75kmh",
-                              style: TextStyle(fontSize: 18),
-                            )
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              "Power",
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              "387wh",
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
                   ]),
             ),
             Positioned(
@@ -172,17 +145,7 @@ class _BikeInfoPageState extends State<BikeInfoPage> {
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
                     child: ElevatedButton(
-                      onPressed: () {
-                        bookbicycle.add(widget.bicycle);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BookingConfirmationPage(
-                              bicycle: widget.bicycle,
-                            ),
-                          ),
-                        );
-                      },
+                      onPressed: _bookBike,
                       child: const Text(
                         'Book',
                         style: TextStyle(fontWeight: FontWeight.bold),

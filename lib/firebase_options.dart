@@ -44,40 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyABfgNAC8_vF3LrezS72ykEAtPS1BrNPAE',
-    appId: '1:329805692344:web:96771e44fb4773daf4a34d',
-    messagingSenderId: '329805692344',
-    projectId: 'mfucycleapp',
-    authDomain: 'mfucycleapp.firebaseapp.com',
-    storageBucket: 'mfucycleapp.appspot.com',
-    measurementId: 'G-6NTNWQ3KF1',
+    apiKey: 'AIzaSyDxW-4MgRUnadEYLSljtUAHpPWjmloKK04',
+    appId: '1:391016537147:web:3c7e79c96bf6aca75b101e',
+    messagingSenderId: '391016537147',
+    projectId: 'mfucycleapp2',
+    authDomain: 'mfucycleapp2.firebaseapp.com',
+    storageBucket: 'mfucycleapp2.appspot.com',
+    measurementId: 'G-7RJ48ZTBGK',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBXcCERO_fiMSvmZWWubes7JWIXi7uXhlY',
-    appId: '1:329805692344:android:ec5d694ae3f7772ef4a34d',
-    messagingSenderId: '329805692344',
-    projectId: 'mfucycleapp',
-    storageBucket: 'mfucycleapp.appspot.com',
+    apiKey: 'AIzaSyC5HlRzr4S7vylsatX4Z0j8OBKAEz4wQ94',
+    appId: '1:391016537147:android:5f38dc494a8f372c5b101e',
+    messagingSenderId: '391016537147',
+    projectId: 'mfucycleapp2',
+    storageBucket: 'mfucycleapp2.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAzm9J-r75A5VIE8AcrALiu20Q2mUdwrlo',
-    appId: '1:329805692344:ios:538aa25a9ffab8d6f4a34d',
-    messagingSenderId: '329805692344',
-    projectId: 'mfucycleapp',
-    storageBucket: 'mfucycleapp.appspot.com',
-    iosClientId: '329805692344-j9h7eb1ipgub3tgjk91lu08fhtdjugfl.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAW48w9BoSIDbKMrSb-L8cfybHLQw-_yWk',
+    appId: '1:391016537147:ios:b3ac59accbc3ea5e5b101e',
+    messagingSenderId: '391016537147',
+    projectId: 'mfucycleapp2',
+    storageBucket: 'mfucycleapp2.appspot.com',
+    iosClientId: '391016537147-4c9sj5frvbjq2fe51dcmu331egm97ln1.apps.googleusercontent.com',
     iosBundleId: 'com.example.cycleBikeMfu',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAzm9J-r75A5VIE8AcrALiu20Q2mUdwrlo',
-    appId: '1:329805692344:ios:538aa25a9ffab8d6f4a34d',
-    messagingSenderId: '329805692344',
-    projectId: 'mfucycleapp',
-    storageBucket: 'mfucycleapp.appspot.com',
-    iosClientId: '329805692344-j9h7eb1ipgub3tgjk91lu08fhtdjugfl.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAW48w9BoSIDbKMrSb-L8cfybHLQw-_yWk',
+    appId: '1:391016537147:ios:b3ac59accbc3ea5e5b101e',
+    messagingSenderId: '391016537147',
+    projectId: 'mfucycleapp2',
+    storageBucket: 'mfucycleapp2.appspot.com',
+    iosClientId: '391016537147-4c9sj5frvbjq2fe51dcmu331egm97ln1.apps.googleusercontent.com',
     iosBundleId: 'com.example.cycleBikeMfu',
   );
 }

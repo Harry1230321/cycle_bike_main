@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:uuid/uuid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 //Animated button
 class AnimatedButton extends StatefulWidget {
   final String text;
   final Function onPressed;
+  final database = FirebaseDatabase.instance;
 
-  const AnimatedButton({Key? key, required this.text, required this.onPressed})
+  AnimatedButton({Key? key, required this.text, required this.onPressed})
       : super(key: key);
 
   @override
@@ -58,52 +61,6 @@ class _AnimatedButtonState extends State<AnimatedButton> {
   }
 }
 
-//Complete and cancel button
-class ToggleWidget extends StatefulWidget {
-  const ToggleWidget({Key? key}) : super(key: key);
-
-  @override
-  _ToggleWidgetState createState() => _ToggleWidgetState();
-}
-
-class _ToggleWidgetState extends State<ToggleWidget> {
-  bool _isComplete = false;
-
-  void _toggleStatus() {
-    setState(() {
-      _isComplete = !_isComplete;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          height: 70.0,
-          width: 200.0,
-          decoration: BoxDecoration(
-              border: Border.all(width: 1.0, color: Colors.black)),
-          child: GestureDetector(
-            onTap: () {
-              _toggleStatus();
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-              child: Text(
-                _isComplete ? "Cancelled" : "Completed",
-                style: const TextStyle(color: Colors.green, fontSize: 24.0),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class Bicycle {
   String _bookingId;
   String _typeOfBike;
@@ -112,7 +69,7 @@ class Bicycle {
   Bicycle({required String typeOfBike, required String imageAssetPath})
       : _typeOfBike = typeOfBike,
         _imageAssetPath = imageAssetPath,
-        _bookingId = _generateBookingId();
+        _bookingId = const Uuid().v4();
 
   String get bookingId => _bookingId;
 
@@ -128,41 +85,35 @@ class Bicycle {
     _imageAssetPath = imageAssetPath;
   }
 
-  static String _generateBookingId() {
-    final random = Random();
-    final alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    final digits = '0123456789';
-    final alphaNumeric = alphabet + digits;
-    String bookingNumber = '';
-
-    // Generate 3 random uppercase letters
-    for (int i = 0; i < 3; i++) {
-      int randomIndex = random.nextInt(alphabet.length);
-      bookingNumber += alphabet[randomIndex];
-    }
-
-    // Generate 3 random digits
-    for (int i = 0; i < 3; i++) {
-      int randomIndex = random.nextInt(digits.length);
-      bookingNumber += digits[randomIndex];
-    }
-
-    // Generate 2 random alphanumeric characters
-    for (int i = 0; i < 2; i++) {
-      int randomIndex = random.nextInt(alphaNumeric.length);
-      bookingNumber += alphaNumeric[randomIndex];
-    }
-
-    return bookingNumber;
-  }
-
   Map<String, dynamic> toJson() {
     return {
       "bookingId": bookingId,
-      "type": getTypeOfBike,
-      "image": getImageAssetPath,
+      "typeOfBike": getTypeOfBike,
+      "imageAssetPath": getImageAssetPath,
     };
   }
+}
+
+void selectBicycle(String typeOfBike, String imageURL) {
+  // Generate a random booking ID
+  String bookingId = Uuid().v4();
+
+  // Create a new document with the generated booking ID
+  DocumentReference bikeRef =
+      FirebaseFirestore.instance.collection('bicycles').doc(bookingId);
+
+  // Add the bicycle details to the document
+  bikeRef.set({
+    'bookingId': bookingId,
+    'typeOfBike': typeOfBike,
+    'image': imageURL,
+  }).then((value) {
+    print('Bicycle added to the database with booking ID: $bookingId');
+    // Perform any additional operations or navigate to the next screen
+  }).catchError((error) {
+    print('Failed to add bicycle to the database: $error');
+    // Handle the error appropriately
+  });
 }
 
 Bicycle bicycle1 = Bicycle(
@@ -186,10 +137,18 @@ List<Bicycle> bicycles = [
 final DatabaseReference database = FirebaseDatabase.instance.reference();
 
 // Add the bicycles to the "bicycles" node
-bicycles.forEach((bicycle) {
-  database.reference().child("bicycles").push().set(bicycle.toJson()).then((value) {
-    print("Bicycle added successfully!");
-  }).catchError((error) {
-    print("Failed to add bicycle: $error");
+void addBicyclesToDatabase(List<Bicycle> bicycles) {
+  final databaseReference = FirebaseDatabase.instance.reference();
+
+  bicycles.forEach((bicycle) {
+    databaseReference
+        .child("bicycles")
+        .push()
+        .set(bicycle.toJson())
+        .then((value) {
+      print("Bicycle added successfully!");
+    }).catchError((error) {
+      print("Failed to add bicycle: $error");
+    });
   });
-});
+}

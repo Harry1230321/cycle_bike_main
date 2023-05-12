@@ -18,8 +18,8 @@ class CycleBikeMFU_App extends StatelessWidget {
         '/profile': (context) => ProfilePage(),
         '/biography': (context) => BiographyPage(),
         '/contact': (context) => ContactPage(),
-        '/login': (BuildContext context) => const LoginPage(title: 'Login'),
-        '/signup': (BuildContext context) => const SignUpPage(title: 'SignUp'),
+        '/login': (BuildContext context) => LoginPage(),
+        '/signup': (BuildContext context) => SignUpPage(title: 'SignUp'),
         '/home': ((context) => Home_main()),
       },
     );

@@ -54,10 +54,7 @@ class _LandingPageState extends State<LandingPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => LoginPage(
-                            title: '',
-                          )),
+                  MaterialPageRoute(builder: (context) => LoginPage()),
                 );
               },
               child: const Text(

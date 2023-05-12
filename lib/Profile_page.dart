@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
-import 'Login_Page.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  ProfilePage({super.key});
+
+  final User? user = FirebaseAuth.instance.currentUser;
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  Future<void> _signOut() async {
+    Navigator.pushReplacementNamed(context, '/login');
+    await FirebaseAuth.instance.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
-    
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Stack(
-      
       fit: StackFit.expand,
       children: [
         Container(
@@ -30,29 +41,31 @@ class ProfilePage extends StatelessWidget {
           body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 38),
             child: Column(
-              children:[
+              children: [
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        alignment: Alignment.topLeft,
-                        icon: Icon(Icons.arrow_back, color: Colors.white,),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      alignment: Alignment.topLeft,
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
                       ),
-                    ],
-                  ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: 20,
                 ),
-                
                 SizedBox(
                   height: 20,
                 ),
                 Container(
                   height: height * 0.4,
-                  child: LayoutBuilder(builder: (context, constraints){
+                  child: LayoutBuilder(builder: (context, constraints) {
                     double innerHeight = constraints.maxHeight;
                     double innerWidth = constraints.maxWidth;
                     return Stack(
@@ -88,33 +101,16 @@ class ProfilePage extends StatelessWidget {
                                 Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment: 
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Student ID : ',
-                                          style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontFamily: 'Nunito',
-                                            fontSize: 23,
-                                          ),
-                                        ),
-                                        Text(
-                                          '6431503116',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'Nunito',
-                                            fontSize: 21,
-                                          ),
-                                        ),
-                                      ],
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[],
                                     ),
                                     SizedBox(
                                       height: 17,
                                     ),
                                     Row(
-                                      mainAxisAlignment: 
-                                      MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           'Status : ',
@@ -127,7 +123,8 @@ class ProfilePage extends StatelessWidget {
                                         Text(
                                           'STUDENT CURRENT',
                                           style: TextStyle(
-                                            color: Color.fromRGBO(8, 250, 36, 1),
+                                            color:
+                                                Color.fromRGBO(8, 250, 36, 1),
                                             fontFamily: 'Nunito',
                                             fontSize: 21,
                                           ),
@@ -151,7 +148,7 @@ class ProfilePage extends StatelessWidget {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                image: AssetImage('assets/images/human.jpg'),
+                                  image: AssetImage('assets/images/human.jpg'),
                                 ),
                               ),
                             ),
@@ -164,39 +161,6 @@ class ProfilePage extends StatelessWidget {
                 SizedBox(
                   height: 25,
                 ),
-                
-                Container(
-                  height: height * 0.06,
-                  width: width ,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.white,
-                  ),
-                  
-                  child: ListTile(
-                    leading: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.red[100],
-                      ),
-                      child: IconButton(onPressed: (){
-                        Navigator.pushNamed(context, '/biography');
-                      },icon: Icon(LineAwesomeIcons.user),
-                    ),
-                      
-                    ),
-                    title: Text(
-                      'Biography'
-                    ),
-                    ),
-                    ),
-                  
-                
-                  SizedBox(
-                      height: 20,
-              ),
                 Container(
                   height: height * 0.06,
                   width: width,
@@ -204,7 +168,6 @@ class ProfilePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     color: Colors.white,
                   ),
-                  
                   child: ListTile(
                     leading: Container(
                       height: 50,
@@ -213,18 +176,16 @@ class ProfilePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                         color: Colors.red[100],
                       ),
-                      child: IconButton(onPressed: (){
-                        Navigator.pushNamed(context, '/contact');
-                      },icon: Icon(Icons.phone),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/biography');
+                        },
+                        icon: Icon(LineAwesomeIcons.user),
+                      ),
                     ),
-                    ),
-                    title: Text(
-                      'Contacts'
-                    ),
-                    
+                    title: Text('Biography'),
+                  ),
                 ),
-              ),
-                
                 SizedBox(
                   height: 20,
                 ),
@@ -235,9 +196,35 @@ class ProfilePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     color: Colors.white,
                   ),
-                  
                   child: ListTile(
-                    
+                    leading: Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.red[100],
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/contact');
+                        },
+                        icon: Icon(Icons.phone),
+                      ),
+                    ),
+                    title: Text('Contacts'),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: height * 0.06,
+                  width: width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.white,
+                  ),
+                  child: ListTile(
                     leading: Container(
                       width: 50,
                       height: 50,
@@ -245,20 +232,13 @@ class ProfilePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                         color: Colors.red[100],
                       ),
-                     child:  IconButton(onPressed: () {
-                        Navigator.push(context,
-                MaterialPageRoute(builder: (context)=> LoginPage(title: '',)),
-                );
-                      }, icon: Icon(Icons.logout,),
+                      child: ElevatedButton(
+                        onPressed: _signOut,
+                        child: Text('Sign Out'),
+                      ),
                     ),
-                  ),
-                    title: Text(
-                      'Logout'
-                    ),
-                    textColor: Colors.red,
                   ),
                 ),
-                
               ],
             ),
           ),

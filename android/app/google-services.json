@@ -1,73 +1,37 @@
 {
   "project_info": {
-    "project_number": "329805692344",
-    "project_id": "mfucycleapp",
-    "storage_bucket": "mfucycleapp.appspot.com"
+    "project_number": "391016537147",
+    "project_id": "mfucycleapp2",
+    "storage_bucket": "mfucycleapp2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:329805692344:android:ec5d694ae3f7772ef4a34d",
+        "mobilesdk_app_id": "1:391016537147:android:5f38dc494a8f372c5b101e",
         "android_client_info": {
           "package_name": "com.example.cycle_bike_main"
         }
       },
       "oauth_client": [
         {
-          "client_id": "329805692344-5es8ejbochbaeho0mrso1r14ccmb42ie.apps.googleusercontent.com",
+          "client_id": "391016537147-h289223adq79vhmq6lms9e4h30e3f08g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBXcCERO_fiMSvmZWWubes7JWIXi7uXhlY"
+          "current_key": "AIzaSyC5HlRzr4S7vylsatX4Z0j8OBKAEz4wQ94"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "329805692344-5es8ejbochbaeho0mrso1r14ccmb42ie.apps.googleusercontent.com",
+              "client_id": "391016537147-h289223adq79vhmq6lms9e4h30e3f08g.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "329805692344-j9h7eb1ipgub3tgjk91lu08fhtdjugfl.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.cycleBikeMfu"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:329805692344:android:25446259ae42667ff4a34d",
-        "android_client_info": {
-          "package_name": "com.example.cycle_bike_mfu"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "329805692344-5es8ejbochbaeho0mrso1r14ccmb42ie.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBXcCERO_fiMSvmZWWubes7JWIXi7uXhlY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329805692344-5es8ejbochbaeho0mrso1r14ccmb42ie.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "329805692344-j9h7eb1ipgub3tgjk91lu08fhtdjugfl.apps.googleusercontent.com",
+              "client_id": "391016537147-4c9sj5frvbjq2fe51dcmu331egm97ln1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.example.cycleBikeMfu"

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key, required this.title});
+  SignUpPage({super.key, required this.title});
   final String title;
 
   @override
@@ -10,13 +11,64 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String? _error;
+  Future<void> _register() async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      setState(() {
+        _error = 'Please fill in all fields.';
+      });
+      return;
+    }
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      // Navigate to the home page or perform other actions after registration
+      Navigator.pushReplacementNamed(context, '/home');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        setState(() {
+          _error = 'The password provided is too weak.';
+        });
+      } else if (e.code == 'email-already-in-use') {
+        setState(() {
+          _error = 'The account already exists for that email.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 48,
+                  width: 48,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/login');
+                    },
+                    child: const Icon(Icons.arrow_back_ios),
+                  ),
+                ),
+              ],
+            ),
+
             Container(
               alignment: Alignment.center,
               height: 130.0,
@@ -56,13 +108,14 @@ class _SignUpPageState extends State<SignUpPage> {
               hintText: 'Full Name',
               controller: TextEditingController(),
             ), //Full Name
-            CustomTextField(
-              hintText: 'Email',
-              controller: TextEditingController(),
+            TextFormField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Email'),
             ), //Email
-            CustomTextField(
-              hintText: 'PassWord',
-              controller: TextEditingController(),
+            TextFormField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
             ), //PassWord
             CustomTextField(
               hintText: 'Confirm Password',
@@ -80,6 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
               child: AnimatedButton(
                 text: "Sign Up",
                 onPressed: () {
+                  _register();
                   Navigator.pushNamed(context, '/login');
                 },
               ),
