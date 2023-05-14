@@ -13,14 +13,14 @@ class CycleBikeMFU_App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LandingPage(),
+      home: const LandingPage(),
       routes: <String, WidgetBuilder>{
         '/profile': (context) => ProfilePage(),
-        '/biography': (context) => BiographyPage(),
-        '/contact': (context) => ContactPage(),
-        '/login': (BuildContext context) => LoginPage(),
+        '/biography': (context) => const BiographyPage(),
+        '/contact': (context) => const ContactPage(),
+        '/login': (BuildContext context) => const LoginPage(),
         '/signup': (BuildContext context) => SignUpPage(title: 'SignUp'),
-        '/home': ((context) => Home_main()),
+        '/home': ((context) => const Home_main()),
       },
     );
   }

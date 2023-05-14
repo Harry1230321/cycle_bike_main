@@ -1,5 +1,4 @@
 import 'package:cycle_bike_mfu/booking_page.dart';
-import 'package:cycle_bike_mfu/functions.dart';
 import 'package:cycle_bike_mfu/history_page.dart';
 import 'package:cycle_bike_mfu/home_page.dart';
 import 'package:cycle_bike_mfu/qrcode_page.dart';
@@ -19,7 +18,7 @@ class _Home_mainState extends State<Home_main> {
     const HomePage(),
     const HistoryPage(),
     const qrcode_page(),
-    BookingPage(),
+    const BookingPage(),
   ];
   static const List<String> _appBarTitles = <String>[
     'Home',
@@ -39,10 +38,10 @@ class _Home_mainState extends State<Home_main> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_appBarTitles[_selectedIndex]),
-        backgroundColor: Color.fromARGB(255, 156, 40, 32),
+        backgroundColor: const Color.fromARGB(255, 156, 40, 32),
         actions: <Widget>[
           Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
                   // Add your navigation code here
@@ -52,7 +51,7 @@ class _Home_mainState extends State<Home_main> {
                         builder: (context) => ProfilePage()), //change
                   );
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.person,
                   size: 26.0,
                 ),
@@ -63,23 +62,23 @@ class _Home_mainState extends State<Home_main> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
-        selectedItemColor: Color.fromARGB(255, 156, 40, 32),
+        selectedItemColor: const Color.fromARGB(255, 156, 40, 32),
         unselectedItemColor: Colors.grey,
-        items: [
+        items: const [
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
+            icon: Icon(Icons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.history),
+            icon: Icon(Icons.history),
             label: "History",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.qr_code),
+            icon: Icon(Icons.qr_code),
             label: "QR-Code",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.book),
+            icon: Icon(Icons.book),
             label: "booking",
           ),
         ],
