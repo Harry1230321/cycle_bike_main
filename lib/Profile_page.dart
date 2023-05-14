@@ -2,30 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class ProfilePage extends StatefulWidget {
-  ProfilePage({super.key});
-
+class ProfilePage extends StatelessWidget {
   final User? user = FirebaseAuth.instance.currentUser;
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
+  ProfilePage({super.key});
 
-class _ProfilePageState extends State<ProfilePage> {
-  Future<void> _signOut() async {
+  Future<void> _signOut(BuildContext context) async {
     Navigator.pushReplacementNamed(context, '/login');
     await FirebaseAuth.instance.signOut();
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+
     return Stack(
       fit: StackFit.expand,
       children: [
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 Color.fromRGBO(4, 9, 35, 1),
@@ -47,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     IconButton(
                       alignment: Alignment.topLeft,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_back,
                         color: Colors.white,
                       ),
@@ -57,17 +53,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 20),
+                const SizedBox(height: 20),
                 SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
                   height: height * 0.4,
                   child: LayoutBuilder(builder: (context, constraints) {
-                    double innerHeight = constraints.maxHeight;
-                    double innerWidth = constraints.maxWidth;
+                    final double innerHeight = constraints.maxHeight;
+                    final double innerWidth = constraints.maxWidth;
                     return Stack(
                       fit: StackFit.expand,
                       children: [
@@ -84,10 +76,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             child: Column(
                               children: [
-                                SizedBox(
-                                  height: 70,
-                                ),
-                                Text(
+                                const SizedBox(height: 70),
+                                const Text(
                                   'Chuming Lin',
                                   style: TextStyle(
                                     color: Color.fromRGBO(39, 105, 171, 1),
@@ -95,19 +85,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                     fontSize: 40,
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                const SizedBox(height: 10),
                                 Column(
                                   children: [
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: <Widget>[],
+                                      children: const <Widget>[],
                                     ),
-                                    SizedBox(
-                                      height: 17,
-                                    ),
+                                    const SizedBox(height: 17),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -120,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             fontSize: 23,
                                           ),
                                         ),
-                                        Text(
+                                        const Text(
                                           'STUDENT CURRENT',
                                           style: TextStyle(
                                             color:
@@ -143,9 +129,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           right: 0,
                           child: Center(
                             child: Container(
-                              margin: EdgeInsets.only(bottom: 10),
+                              margin: const EdgeInsets.only(bottom: 10),
                               height: 180,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                   image: AssetImage('assets/images/human.jpg'),
@@ -158,92 +144,76 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   }),
                 ),
-                SizedBox(
-                  height: 25,
+                const SizedBox(height: 25),
+                buildMenuItem(
+                  width,
+                  height,
+                  LineAwesomeIcons.user,
+                  'Biography',
+                  '/biography',
+                  context,
                 ),
-                Container(
-                  height: height * 0.06,
-                  width: width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.white,
-                  ),
-                  child: ListTile(
-                    leading: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.red[100],
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/biography');
-                        },
-                        icon: Icon(LineAwesomeIcons.user),
-                      ),
-                    ),
-                    title: Text('Biography'),
-                  ),
+                const SizedBox(height: 20),
+                buildMenuItem(
+                  width,
+                  height,
+                  Icons.phone,
+                  'Contacts',
+                  '/contact',
+                  context,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: height * 0.06,
-                  width: width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.white,
-                  ),
-                  child: ListTile(
-                    leading: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.red[100],
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/contact');
-                        },
-                        icon: Icon(Icons.phone),
-                      ),
-                    ),
-                    title: Text('Contacts'),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: height * 0.06,
-                  width: width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.white,
-                  ),
-                  child: ListTile(
-                    leading: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.red[100],
-                      ),
-                      child: ElevatedButton(
-                        onPressed: _signOut,
-                        child: Text('Sign Out'),
-                      ),
-                    ),
-                  ),
+                const SizedBox(height: 20),
+                buildMenuItem(
+                  width,
+                  height,
+                  Icons.logout,
+                  'Log Out',
+                  '/login',
+                  context,
+                  onPressed: () => _signOut(context),
                 ),
               ],
             ),
           ),
-        )
+        ),
       ],
+    );
+  }
+
+  Widget buildMenuItem(
+    double width,
+    double height,
+    IconData icon,
+    String title,
+    String route,
+    BuildContext context, {
+    VoidCallback? onPressed,
+  }) {
+    return Container(
+      height: height * 0.06,
+      width: width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        color: Colors.white,
+      ),
+      child: ListTile(
+        leading: Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: Colors.red[100],
+          ),
+          child: IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, route);
+            },
+            icon: Icon(icon),
+          ),
+        ),
+        title: Text(title),
+        onTap: onPressed,
+      ),
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +40,7 @@ class _BookingPageState extends State<BookingPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Booking Details'),
+              title: const Text('Booking Details'),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -51,7 +50,7 @@ class _BookingPageState extends State<BookingPage> {
                     width: 200,
                     height: 200,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text('Cycle Name: $cycleName'),
                 ],
               ),
@@ -60,7 +59,7 @@ class _BookingPageState extends State<BookingPage> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );
@@ -76,7 +75,7 @@ class _BookingPageState extends State<BookingPage> {
   void _showSnackBar(String message) {
     final snackBar = SnackBar(
       content: Text(message),
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -89,7 +88,7 @@ class _BookingPageState extends State<BookingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(''),
+            const SizedBox(height: 16),
             TextField(
               onChanged: (value) {
                 setState(() {
@@ -98,12 +97,24 @@ class _BookingPageState extends State<BookingPage> {
               },
               decoration: InputDecoration(
                 labelText: 'Enter Booking ID',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _confirmBooking,
-              child: Text('Confirm Booking'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                backgroundColor: const Color.fromARGB(255, 156, 40,
+                    32), // Set the button's background color to white
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: const Text('Confirm Booking'),
             ),
           ],
         ),

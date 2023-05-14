@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpPage extends StatefulWidget {
-  SignUpPage({super.key, required this.title});
+  SignUpPage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -14,6 +13,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _error;
+
   Future<void> _register() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       setState(() {
@@ -21,6 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
       });
       return;
     }
+
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -51,91 +52,80 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 48,
-                  width: 48,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/login');
-                    },
-                    child: const Icon(Icons.arrow_back_ios),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: 24,
+                    ),
                   ),
                 ),
               ],
             ),
-
             Container(
               alignment: Alignment.center,
               height: 130.0,
               width: 130.0,
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
               child: Image.asset('assets/images/mfu_logo.png'),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  child: Text(
-                    'Sign Up',
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 32,
-                        fontWeight: FontWeight.normal),
-                  ),
+            const Padding(
+              padding: EdgeInsets.only(left: 3, top: 3),
+              child: Text(
+                'Sign Up',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  child: Text(
-                    'Please Enter Your Credential',
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.normal),
-                  ),
+            const Padding(
+              padding: EdgeInsets.only(left: 3, top: 3),
+              child: Text(
+                'Please Enter Your Credentials',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
                 ),
-              ],
+              ),
             ),
             CustomTextField(
-              hintText: 'Full Name',
-              controller: TextEditingController(),
-            ), //Full Name
-            TextFormField(
+              hintText: 'Email',
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ), //Email
-            TextFormField(
+            ),
+            CustomTextField(
+              hintText: 'Password',
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
               obscureText: true,
-            ), //PassWord
-            CustomTextField(
-              hintText: 'Confirm Password',
-              controller: TextEditingController(),
-            ), //Confirm Password
-            CustomTextField(
-              hintText: 'Phone Number',
-              controller: TextEditingController(),
-            ), //Phone Number
+            ),
+            if (_error != null)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  _error!,
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             Container(
               alignment: Alignment.center,
-              height: 70.0,
-              width: 300.0,
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              margin: const EdgeInsets.symmetric(vertical: 24.0),
               child: AnimatedButton(
                 text: "Sign Up",
-                onPressed: () {
-                  _register();
-                  Navigator.pushNamed(context, '/login');
-                },
+                onPressed: _register,
               ),
             ),
           ],
@@ -148,20 +138,78 @@ class _SignUpPageState extends State<SignUpPage> {
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
+  final bool obscureText;
 
-  const CustomTextField(
-      {Key? key, required this.hintText, required this.controller})
-      : super(key: key);
+  const CustomTextField({
+    Key? key,
+    required this.hintText,
+    required this.controller,
+    this.obscureText = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextField(
         controller: controller,
+        obscureText: obscureText,
+        style: const TextStyle(
+          fontSize: 16.0,
+          color: Colors.black,
+        ),
         decoration: InputDecoration(
           hintText: hintText,
-          border: const UnderlineInputBorder(),
+          hintStyle: TextStyle(
+            fontSize: 16.0,
+            color: Colors.grey[400],
+          ),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        ),
+      ),
+    );
+  }
+}
+
+class AnimatedButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+
+  const AnimatedButton({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red,
+        padding: const EdgeInsets.all(16.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Center(
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );

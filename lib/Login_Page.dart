@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'functions.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -22,13 +21,14 @@ class _LoginPageState extends State<LoginPage> {
       });
       return;
     }
-    Navigator.pushReplacementNamed(context, '/home');
+
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
+      Navigator.pushReplacementNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         setState(() {
@@ -46,6 +46,120 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  //Logo
+  Widget _buildLogo() {
+    return Container(
+      alignment: Alignment.center,
+      height: 130.0,
+      width: 130.0,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      child: Image.asset('assets/images/mfu_logo.png'),
+    );
+  }
+
+  //heading
+  Widget _buildHeading() {
+    return Column(
+      children: const <Widget>[
+        Text(
+          'Cycle Buddy MFU',
+          style: TextStyle(
+            color: Color.fromARGB(255, 156, 40, 32),
+            fontWeight: FontWeight.normal,
+            fontSize: 38,
+          ),
+        ),
+        Text(
+          'Log In Now',
+          style: TextStyle(
+            color: Color.fromARGB(255, 156, 40, 32),
+            fontWeight: FontWeight.normal,
+            fontSize: 32,
+          ),
+        ),
+        Text(
+          'Please login to continue',
+          style:
+              TextStyle(color: Color.fromARGB(255, 156, 40, 32), fontSize: 15),
+        ),
+      ],
+    );
+  }
+
+  //emailField
+  Widget _buildEmailField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: TextFormField(
+        controller: _emailController,
+        decoration: const InputDecoration(labelText: 'Email'),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: TextFormField(
+        controller: _passwordController,
+        decoration: const InputDecoration(labelText: 'Password'),
+        obscureText: true,
+      ),
+    );
+  }
+
+  Widget _buildErrorMessage() {
+    return _error != null
+        ? Text(
+            _error!,
+            style: const TextStyle(color: Color.fromARGB(255, 156, 40, 32)),
+          )
+        : Container();
+  }
+
+  Widget _buildLoginButton() {
+    return Container(
+      alignment: Alignment.center,
+      height: 80.0,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AnimatedButton(
+            text: "Log In",
+            onPressed: _login,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSignUpLink() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Text(
+          "Don't have an account  ",
+          style: TextStyle(),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, '/signup');
+          },
+          child: const Text(
+            'Sign up',
+            style: TextStyle(
+              color: Color.fromARGB(255, 156, 40, 32),
+              decoration: TextDecoration.underline,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,93 +167,13 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              height: 130.0,
-              width: 130.0,
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: Image.asset('assets/images/mfu_logo.png'),
-            ), //<<<<<<<<<<<<<<<<<<<Logo
-            const Text(
-              'Log In Now',
-              style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 38),
-            ),
-            const Text(
-              'Please login to continue',
-              style: TextStyle(color: Colors.red, fontSize: 15),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 1, vertical: 2),
-              child: TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 1, vertical: 2),
-              child: TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              height: 80.0,
-              padding: EdgeInsets.symmetric(horizontal: 1, vertical: 2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedButton(
-                    text: "Log In",
-                    onPressed: () {
-                      _login();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 1, vertical: 2),
-                  child: Text(
-                    "Dont have an account",
-                    style: TextStyle(),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/signup');
-                  },
-                  child: const Text(
-                    'Sign up',
-                    style: TextStyle(
-                      color: Colors.red,
-                      decoration: TextDecoration.underline,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const Text(
-              ' Or connect with ',
-              style: TextStyle(fontWeight: FontWeight.normal),
-            ),
-            Container(
-                height: 80.0,
-                width: 80.0,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 2),
-                child: const Image(
-                    image: NetworkImage(
-                        'https://img.icons8.com/color/512/google-logo.png'))),
+            _buildLogo(),
+            _buildHeading(),
+            _buildEmailField(),
+            _buildPasswordField(),
+            _buildErrorMessage(),
+            _buildLoginButton(),
+            _buildSignUpLink(),
           ],
         ),
       ),
