@@ -41,6 +41,7 @@ class _BikeInfoPageState extends State<BikeInfoPage> {
       'bookingId': bookingId,
       'cycleName': widget.bicycle['cycleName'],
       'imageAssetPath': widget.bicycle['imageAssetPath'],
+      'confirmed': false,
     });
 
     // Navigate back to the home page

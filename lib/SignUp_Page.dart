@@ -12,10 +12,12 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  //firebase
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _error;
 
+  //firebase
   Future<void> _register() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       setState(() {
@@ -33,9 +35,11 @@ class _SignUpPageState extends State<SignUpPage> {
       // Get the user ID
       String userId = userCredential.user!.uid;
 
-      await FirebaseFirestore.instance.collection('users').doc(userId).set({
-        'bookedBicycles': [], // Initial empty array of bicycles
-      });
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('bookedBicycles')
+          .add({});
       // Navigate to the home page or perform other actions after registration
       Navigator.pushReplacementNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
@@ -133,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
               margin: const EdgeInsets.symmetric(vertical: 24.0),
               child: AnimatedButton(
                 text: "Sign Up",
-                onPressed: _register,
+                onPressed: _register, //firebase
               ),
             ),
           ],

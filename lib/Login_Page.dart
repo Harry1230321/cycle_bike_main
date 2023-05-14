@@ -10,11 +10,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //firebase
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _error;
 
   Future<void> _login() async {
+    //check empty or not
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       setState(() {
         _error = 'Please fill in all fields.';

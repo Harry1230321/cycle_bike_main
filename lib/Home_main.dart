@@ -16,7 +16,7 @@ class _Home_mainState extends State<Home_main> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
-    const HistoryPage(),
+    HistoryPage(),
     const qrcode_page(),
     const BookingPage(),
   ];
