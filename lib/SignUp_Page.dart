@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'functions.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key, required this.title}) : super(key: key);
@@ -28,6 +30,12 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+      // Get the user ID
+      String userId = userCredential.user!.uid;
+
+      await FirebaseFirestore.instance.collection('users').doc(userId).set({
+        'bookedBicycles': [], // Initial empty array of bicycles
+      });
       // Navigate to the home page or perform other actions after registration
       Navigator.pushReplacementNamed(context, '/home');
     } on FirebaseAuthException catch (e) {

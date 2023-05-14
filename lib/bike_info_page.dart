@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class BikeInfoPage extends StatefulWidget {
   final DocumentSnapshot bicycle;
@@ -29,11 +30,14 @@ class _BikeInfoPageState extends State<BikeInfoPage> {
   void _bookBike() {
     // Generate a randomized booking ID
     final String bookingId = generateBookingId();
-    //final bool confirmed = false;
 
     // Add the selected bike's information along with the booking ID to the bookingBicycles collection in Firestore
-    FirebaseFirestore.instance.collection('bookedBicycles').doc(bookingId).set({
-      //'confirmed'
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('bookedBicycles')
+        .doc(bookingId)
+        .set({
       'bookingId': bookingId,
       'cycleName': widget.bicycle['cycleName'],
       'imageAssetPath': widget.bicycle['imageAssetPath'],
