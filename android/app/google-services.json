@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "391016537147",
-    "project_id": "mfucycleapp2",
-    "storage_bucket": "mfucycleapp2.appspot.com"
+    "project_number": "726796630238",
+    "project_id": "cycle-buddy-mfu-app",
+    "storage_bucket": "cycle-buddy-mfu-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:391016537147:android:5f38dc494a8f372c5b101e",
+        "mobilesdk_app_id": "1:726796630238:android:6c50e40bec51ef208cea4f",
         "android_client_info": {
           "package_name": "com.example.cycle_bike_main"
         }
       },
       "oauth_client": [
         {
-          "client_id": "391016537147-h289223adq79vhmq6lms9e4h30e3f08g.apps.googleusercontent.com",
+          "client_id": "726796630238-gdqrqcg1ff7k5j3sf6r8vj4lqqrdekgv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC5HlRzr4S7vylsatX4Z0j8OBKAEz4wQ94"
+          "current_key": "AIzaSyD0HtFhNqJxqVEaV8znP7HU0HnhYrjAJbM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "391016537147-h289223adq79vhmq6lms9e4h30e3f08g.apps.googleusercontent.com",
+              "client_id": "726796630238-gdqrqcg1ff7k5j3sf6r8vj4lqqrdekgv.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "391016537147-4c9sj5frvbjq2fe51dcmu331egm97ln1.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.cycleBikeMfu"
-              }
             }
           ]
         }
